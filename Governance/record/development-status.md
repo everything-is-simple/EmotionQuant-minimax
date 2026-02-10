@@ -1,18 +1,11 @@
 # EmotionQuant 开发状态（Spiral 版）
 
-**最后更新**: 2026-02-10  
-**当前版本**: v3.2（远端迁移到 EmotionQuant-gpt，环境锚点已登记）  
-**仓库地址**: https://github.com/everything-is-simple/EmotionQuant-gpt
-
-
-## 环境锚点（2026-02-10）
-
-- 远端仓库（origin）：`https://github.com/everything-is-simple/EmotionQuant-gpt`
-- 本地代码与文档目录：`G:\EmotionQuant\EmotionQuant-gpt`
-- 本地数据库目录：`G:\EmotionQuant_data`
-- 约束：运行时代码必须通过 Config/env 注入路径，禁止硬编码本机绝对路径。
+**最后更新**: 2026-02-07  
+**当前版本**: v3.1（Spiral+CP 治理基线完成，S0 待执行）  
+**仓库地址**: https://github.com/everything-is-simple/EmotionQuant_beta
 
 ---
+
 ## 当前阶段
 
 **S0：数据最小闭环**（待启动）
@@ -76,8 +69,6 @@ S0 目标：完成一条可复现的最小数据链路，并产出可验证证�
 
 | 日期 | 版本 | 变更内容 |
 |---|---|---|
-| 2026-02-10 | v3.2 | 远端仓库迁移到 EmotionQuant-gpt；登记本地代码目录与数据目录环境锚点 |
 | 2026-02-07 | v3.1 | 统一 CP 术语与最小同步契约；重写 ROADMAP/Workflow/Steering 关键文档 |
 | 2026-02-07 | v3.0 | 切换到 Spiral 状态看板；更新仓库地址为 GitHub；定义 S0 进出门禁 |
 | 2026-02-06 | v2.3 | 线性 Phase 状态（归档口径） |
-

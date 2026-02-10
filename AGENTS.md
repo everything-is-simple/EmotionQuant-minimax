@@ -43,6 +43,14 @@ Canonical policy is now **Spiral-first** and aligned with `README.md` + `CLAUDE.
 
 ---
 
+## Local directory anchors (this deployment)
+
+- Local repo root (docs + code): `G:\EmotionQuant-gpt`
+- Local database/data root: `G:\EmotionQuant_data`
+- Keep code path handling via Config/env (no hardcoded paths in implementation).
+
+---
+
 ## Tooling note (.claude)
 
 - `.claude/` is retained as historical tooling assets.
