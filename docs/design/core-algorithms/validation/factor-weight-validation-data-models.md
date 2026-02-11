@@ -124,8 +124,8 @@ class ValidationRunManifest:
     command: str
     test_command: str
     artifact_dir: str            # .reports/validation/{trade_date}/
-    started_at: str
-    finished_at: str
+    started_at: datetime
+    finished_at: datetime
     status: str                  # SUCCESS/FAILED
     failed_reason: str
     created_at: datetime

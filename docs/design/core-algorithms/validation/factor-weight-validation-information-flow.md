@@ -57,8 +57,8 @@ Sync: 更新 final.md + records + 相关 CP 契约
 
 | factor_name（ValidatedFactor） | 来源层 | 表 | 字段 |
 |---|---|---|---|
-| `mss_market_coefficient` | L2 | `market_snapshot` | `yesterday_limit_up_today_avg_pct` 等派生字段 |
-| `mss_profit_effect` | L2 | `market_snapshot` | `rise_count/limit_up_count` 相关派生 |
+| `mss_market_coefficient` | L2 | `market_snapshot` | `rise_count`（上涨占比/参与度核心字段） |
+| `mss_profit_effect` | L2 | `market_snapshot` | `limit_up_count/new_100d_high_count/strong_up_count` 相关派生 |
 | `mss_loss_effect` | L2 | `market_snapshot` | `fall_count/limit_down_count` 相关派生 |
 | `mss_continuity_factor` | L2 | `market_snapshot` | `continuous_limit_up_count` 等连板连续性派生 |
 | `mss_extreme_factor` | L2 | `market_snapshot` | `high_open_low_close_count` 等极端分歧派生 |
