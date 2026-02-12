@@ -1,7 +1,7 @@
 # Trading 数据模型
 
-**版本**: v3.2.6（重构版）
-**最后更新**: 2026-02-09
+**版本**: v3.2.7（重构版）
+**最后更新**: 2026-02-12
 **状态**: 设计完成（代码未落地）
 
 ---
@@ -86,7 +86,6 @@ class Position:
     """持仓"""
     stock_code: str           # 股票代码
     stock_name: str           # 股票名称
-    direction: str = "long"   # 持仓方向（A股默认 long）
     shares: int               # 持仓股数
     cost_price: float         # 成本价
     cost_amount: float        # 成本金额 = shares × cost_price
@@ -102,6 +101,7 @@ class Position:
     # 止损止盈
     stop_price: float         # 止损价
     target_price: float       # 目标价
+    direction: str = "long"   # 持仓方向（A股默认 long）
 ```
 
 ### 1.4 TradeRecord（成交记录）
@@ -350,6 +350,7 @@ class RiskCheckResult:
 | entry | 入场价 |
 | stop | 止损价 |
 | target | 目标价 |
+| mss_score | MSS评分 |
 | irs_score | IRS评分 |
 | pas_score | PAS评分 |
 | industry_code | 行业代码 |
@@ -414,6 +415,7 @@ class RiskLevel(Enum):
 
 | 版本 | 日期 | 变更内容 |
 |------|------|----------|
+| v3.2.7 | 2026-02-12 | 修复 R14：`Position` dataclass 调整字段顺序，确保默认字段 `direction` 位于无默认字段之后；§5.4 `integrated_recommendation` 依赖补充 `mss_score`，与算法消费与 Data Layer DDL 对齐 |
 | v3.2.6 | 2026-02-09 | 修复 R28：`trade_records/positions/t1_frozen` 类型体系由 `TEXT/REAL` 统一为 `VARCHAR/DECIMAL/BOOLEAN/DATETIME`，与 Data Layer 业务表口径一致 |
 | v3.2.5 | 2026-02-09 | 修复 R20：`TradeSignal.source` 标注为当前仅 `integrated`；`TradeConfig` 移除 IRS/PAS 硬阈值并统一为 `min_final_score`；费用配置改为共享 `AShareFeeConfig` 统一来源 |
 | v3.2.4 | 2026-02-08 | 修复 R15：`positions` DDL 对齐 Data Layer，改为 `id` 主键 + `stock_code UNIQUE`，并补充 `created_at` |
