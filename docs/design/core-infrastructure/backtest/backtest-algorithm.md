@@ -1,7 +1,7 @@
 # Backtest 回测算法设计
 
-**版本**: v3.4.7（重构版）
-**最后更新**: 2026-02-09
+**版本**: v3.4.8（重构版）
+**最后更新**: 2026-02-12
 **状态**: 设计完成（代码未落地）；与 MSS/IRS/PAS/Integration + Data Layer 对齐
 
 ---
@@ -89,11 +89,14 @@ Step 1: 读取集成推荐（Top-Down）
     )
 
 Step 2: 软门控过滤（不做单点硬否决）
+    recommendation_rank = {"AVOID": 0, "SELL": 1, "HOLD": 2, "BUY": 3, "STRONG_BUY": 4}
+    min_rec_rank = recommendation_rank.get(config.min_recommendation, recommendation_rank["BUY"])
+
     filtered_recs = []
     for row in recs:
         if row.final_score < config.min_final_score:
             continue
-        if row.recommendation in {"AVOID", "SELL"}:
+        if recommendation_rank.get(row.recommendation, -1) < min_rec_rank:
             continue
         if row.direction == "neutral":
             continue  # 与 Trading 对齐：neutral 仅观望，不生成订单
@@ -151,10 +154,13 @@ Step 2: 结构性活跃度验证（pas_breadth_daily）
         return []  # BU 活跃度不足
 
 Step 3: 构建回测信号
+    recommendation_rank = {"AVOID": 0, "SELL": 1, "HOLD": 2, "BUY": 3, "STRONG_BUY": 4}
+    min_rec_rank = recommendation_rank.get(config.min_recommendation, recommendation_rank["BUY"])
+
     for row in recs:
         if row.final_score < config.min_final_score:
             continue
-        if row.recommendation in {"AVOID", "SELL"}:
+        if recommendation_rank.get(row.recommendation, -1) < min_rec_rank:
             continue
         if row.direction == "neutral":
             continue
@@ -369,6 +375,7 @@ Calmar Ratio:
 
 | 版本 | 日期 | 变更内容 |
 |------|------|----------|
+| v3.4.8 | 2026-02-12 | 修复 R13：§3.1 Step 2 与 §3.2 Step 3 的 recommendation 过滤改为基于 `config.min_recommendation` 的等级比较（`STRONG_BUY > BUY > HOLD > SELL > AVOID`），消除硬编码集合造成的门槛偏差 |
 | v3.4.7 | 2026-02-09 | 修复 R26：§3.1/§3.2 增加 Validation Gate FAIL 前置阻断；新增 `risk_reward_ratio < 1.0` 执行层软过滤；补充 recession 协同约束由 Integration 处理说明；§6 增补 Gate FAIL 降级策略 |
 | v3.4.6 | 2026-02-09 | 修复 R20：§3.1/§3.2 增加 `direction=neutral` 过滤并与 Trading 对齐；§4 新增 `§4.9` 止损/止盈退出规则（触发条件、执行时点、优先级、不可成交顺延） |
 | v3.4.5 | 2026-02-08 | 修复 R13：§4 新增 `max_holding_days` 时限平仓规则（每日检查、T+1 执行、不可成交顺延） |
@@ -390,3 +397,4 @@ Calmar Ratio:
 - 数据模型：[backtest-data-models.md](./backtest-data-models.md)
 - API接口：[backtest-api.md](./backtest-api.md)
 - 信息流：[backtest-information-flow.md](./backtest-information-flow.md)
+

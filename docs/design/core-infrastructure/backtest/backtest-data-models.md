@@ -1,7 +1,7 @@
 # Backtest 数据模型
 
-**版本**: v3.4.10（重构版）
-**最后更新**: 2026-02-09
+**版本**: v3.4.11（重构版）
+**最后更新**: 2026-02-12
 **状态**: 设计完成（代码未落地）
 
 ---
@@ -148,7 +148,6 @@ class Position:
     stock_code: str
     stock_name: str
     industry_code: str
-    direction: str = "long"
     shares: int
     cost_price: float
     cost_amount: float
@@ -162,6 +161,7 @@ class Position:
     stop_price: float
     target_price: float
     signal_id: str
+    direction: str = "long"
 ```
 
 ### 1.5 EquityPoint 净值点
@@ -426,6 +426,7 @@ class EngineType(Enum):
 
 | 数据源 | 读取方式 | 用途 | 必需字段 |
 |--------|----------|------|----------|
+| validation_gate_decision | 直接读取 | Step 0 前置门控 | final_gate |
 | integrated_recommendation | 直接读取 | 集成信号主输入 | final_score, recommendation, position_size, entry, stop, target, integration_mode, mss_score, irs_score, pas_score, direction |
 | pas_breadth_daily | 直接读取（BU） | BU 活跃度门控 | pas_sa_ratio, industry_sa_ratio |
 | mss_panorama | 间接获取（经 integrated_recommendation 透传） | 风险上下文追溯 | mss_score（如需温度明细再直连） |
@@ -445,6 +446,7 @@ class EngineType(Enum):
 
 | 版本 | 日期 | 变更内容 |
 |------|------|----------|
+| v3.4.11 | 2026-02-12 | 修复 R13：`Position` dataclass 调整字段顺序，确保默认字段 `direction` 位于无默认字段之后；§4.1 L3 依赖补充 `validation_gate_decision`（`final_gate`） |
 | v3.4.10 | 2026-02-09 | 修复 R28：`BacktestResult` dataclass 补齐 `final_value`（与 DDL 对齐）；明确 `position_summary` 为运行态字段，不持久化到 `backtest_results` |
 | v3.4.9 | 2026-02-09 | 同步 API 语义：`min_recommendation` 注释改为 Recommendation 枚举的“最低等级门槛”定义（含五级顺序） |
 | v3.4.8 | 2026-02-09 | 修复 R20：`BacktestConfig` 费率改为共享 `AShareFeeConfig`；明确 `BacktestSignal.direction` 为追溯字段、`BacktestTrade.direction` 为执行方向；§4.1 区分 L3 依赖“直接读取/间接透传” |
@@ -469,3 +471,4 @@ class EngineType(Enum):
 - 算法设计：[backtest-algorithm.md](./backtest-algorithm.md)
 - API接口：[backtest-api.md](./backtest-api.md)
 - 信息流：[backtest-information-flow.md](./backtest-information-flow.md)
+

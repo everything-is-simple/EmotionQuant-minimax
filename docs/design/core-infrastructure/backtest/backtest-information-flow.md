@@ -1,7 +1,7 @@
 # Backtest 信息流
 
-**版本**: v3.4.1（重构版）
-**最后更新**: 2026-02-09
+**版本**: v3.4.2（重构版）
+**最后更新**: 2026-02-12
 **状态**: 设计完成（代码未落地）
 
 ---
@@ -115,6 +115,7 @@ pas_breadth_daily（活跃度）→ integrated_recommendation → SignalProvider
 
 | 异常场景 | 处理策略 |
 |----------|----------|
+| Validation Gate = FAIL | 跳过当日信号生成，记录 `blocked_by_gate` |
 | 集成信号缺失 | 使用上次可用日，标记 degraded |
 | BU 活跃度不足 | 禁用 BU，回退 TD |
 | L1 行情缺失 | 跳过该股票/交易日 |
@@ -125,6 +126,7 @@ pas_breadth_daily（活跃度）→ integrated_recommendation → SignalProvider
 
 | 版本 | 日期 | 变更内容 |
 |------|------|----------|
+| v3.4.2 | 2026-02-12 | 修复 R13：§4 异常处理补充 `Validation Gate = FAIL` 场景，处理策略为“跳过当日信号生成并记录 `blocked_by_gate`”，与算法文档 §6 对齐 |
 | v3.4.1 | 2026-02-09 | 修复 R20：§3 每日流程补齐持仓风控步骤（止损/止盈/时限平仓），并重排为“先卖后买”闭环流程 |
 | v3.4.0 | 2026-02-07 | 统一引擎口径：Qlib 主选 + 本地向量化基线 |
 | v3.3.2 | 2026-02-06 | 标注实现状态（代码未落地），引擎口径回归 backtrader |
@@ -140,3 +142,4 @@ pas_breadth_daily（活跃度）→ integrated_recommendation → SignalProvider
 - 算法设计：[backtest-algorithm.md](./backtest-algorithm.md)
 - 数据模型：[backtest-data-models.md](./backtest-data-models.md)
 - API接口：[backtest-api.md](./backtest-api.md)
+
