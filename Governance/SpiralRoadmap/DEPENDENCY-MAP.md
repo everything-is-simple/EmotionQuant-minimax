@@ -1,6 +1,6 @@
 # EmotionQuant 跨 Spiral 依赖与数据流图
 
-**版本**: v1.2.1
+**版本**: v1.3.0
 **最后更新**: 2026-02-12
 **伴随文档**: `VORTEX-EVOLUTION-ROADMAP.md`
 
@@ -89,6 +89,32 @@
                └─────────────────────────────┘
 ```
 
+### 1.1 反馈微循环与新增产物流向（新增）
+
+```
+S2: validation_prescription + s2_cross_section_probe
+                     │
+                     ▼
+S3: quality_gate_report + quicklook_equity_curve
+        │ PASS                         │ FAIL
+        ▼                              ▼
+      S4 主线推进                 S2r 定向回修
+                                      │
+                                      ▼
+                          s2r_patch_note + recommendation_delta
+                                      │
+                                      └────→ 回流 S3 重验
+```
+
+| 产物 | 产出位置 | 消费位置 | 用途 |
+|---|---|---|---|
+| `validation_prescription` | S2 | S2r / S3 | 给出“问题类型→修复建议→目标因子” |
+| `s2_cross_section_probe` | S2 | S3 / S2r | 回测前体检，验证 TopN 与 BottomN 区分度 |
+| `quality_gate_report` | S3 | S4 / S2r | S4 入口判定（PASS）或触发回修（FAIL） |
+| `quicklook_equity_curve` | S3 | S4 / S5 | 交易前可视化评估与展示 |
+| `s2r_patch_note` | S2r | S3 | 记录修复项、目标指标与影响范围 |
+| `s2r_recommendation_delta` | S2r | S3 | 对比回修前后推荐变化与风险暴露 |
+
 ---
 
 ## 2. Spiral 间阻断依赖（必须满足才能进入下一圈）
@@ -97,10 +123,23 @@
 |---|---|---|
 | S1 | S0 | `market_snapshot` 必须存在且字段完整 |
 | S2 | S0, S1 | `industry_snapshot` 骨架就绪；`mss_panorama` 落库 |
-| S3 | S2 | `integrated_recommendation` + `validation_gate_decision` 可用 |
-| S4 | S2, S3 | `integrated_recommendation` + `backtest_results` 可用且 Validation Gate != FAIL |
+| S3 | S2 | `integrated_recommendation` + `validation_gate_decision` + `s2_cross_section_probe` 可用 |
+| S4 | S2, S3 | `integrated_recommendation` + `backtest_results` 可用且 `quality_gate_report.status = PASS` |
 | S5 | S3, S4 | `performance_metrics` + `trade_records` + `positions` 可用 |
 | S6 | S0-S5 | 全部 Spiral 已收口 |
+
+### 2.1 反馈微循环（非主线）
+
+| 触发点 | 回修入口 | 回修边界 | 回修出口 |
+|---|---|---|---|
+| S3 `quality_gate_report.status = FAIL` | `S2r` | 仅允许修改 IRS/PAS/Validation/Integration，不改 S0/S1 契约 | 重新回到 S3 并产出 PASS 的 `quality_gate_report` |
+| `validation_gate_decision = FAIL` | `S2r` | 必须附带 `validation_prescription` 的修复映射 | 产出 `s2r_patch_note` 与 `s2r_recommendation_delta` 后重验 |
+| `s2_cross_section_probe.top_bottom_spread_5d <= 0` | `S2r` | 优先修复权重与评分口径，不扩张新功能 | 重验通过后方可恢复 S4 主线 |
+
+微循环执行约束：
+1. 单一问题最多允许 2 次 S2r 回修。
+2. 连续 2 次回修仍 FAIL，阻断主线并升级到路线图评审。
+3. S4 及后续 Spiral 不得绕过质量门进入执行。
 
 ---
 
@@ -169,7 +208,7 @@ ENH-09 ░░░░░░░░░░░░████░░░░░░░░�
 
 ### 5.2 外挂总工时
 
-外挂总计 ~7.9d / 29.2d ≈ **27%**，符合 `enhancement-selection-analysis` 预估的 20-25% + ENH-09 工时。
+外挂总计 ~8.2d / 30.1d ≈ **27%**，符合 `enhancement-selection-analysis` 预估的 20-25% + ENH-09 工时。
 
 ---
 
@@ -177,6 +216,7 @@ ENH-09 ░░░░░░░░░░░░████░░░░░░░░�
 
 | 版本 | 日期 | 变更 |
 |---|---|---|
+| v1.3.0 | 2026-02-12 | 新增反馈微循环执行定义：补 §1.1 产物流向、§2.1 非主线回修规则；S4 阻断条件升级为 `quality_gate_report.status = PASS` |
 | v1.2.1 | 2026-02-12 | 链接口径整理：`system-overview` 与改进主计划引用改为完整路径 |
 | v1.2.0 | 2026-02-12 | 新增 §5 ENH 外挂增强排布总览（分布表 + 生命周期图 + 工时占比） |
 | v1.1.0 | 2026-02-12 | 对齐 SoT：S2 含 Integration，S3 转为回测闭环；修正存储口径为 Parquet+DuckDB；修正 risk_evt 为 risk_events |
