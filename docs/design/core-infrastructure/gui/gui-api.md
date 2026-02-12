@@ -395,7 +395,7 @@ def format_pnl(
 ### 5.1 export_to_csv
 
 ```python
-    def export_to_csv(
+def export_to_csv(
     data: List[dict],
     columns: List[ColumnConfig],
     filename: str

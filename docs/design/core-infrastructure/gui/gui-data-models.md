@@ -323,7 +323,7 @@ class TemperatureCardData:
     """温度卡片数据"""
     value: float                  # 温度值
     color: str                    # 背景色
-    label: str                    # 标签（高温/中性/低温）
+    label: str                    # 标签（过热/中性/冷却/冰点）
     trend: str                    # 趋势图标
 ```
 
