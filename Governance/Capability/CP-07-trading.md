@@ -2,8 +2,10 @@
 
 **文件名**: `CP-07-trading.md`  
 **版本**: v6.0.0  
-**最后更新**: 2026-02-07
-
+> ⚠️ 历史说明（2026-02-13）
+> 本文件为线性阶段能力包留档，仅供回顾历史，不作为当前路线图执行入口。
+> 当前执行入口：`Governance/SpiralRoadmap/VORTEX-EVOLUTION-ROADMAP.md` 与 `Governance/SpiralRoadmap/DEPENDENCY-MAP.md`。
+> 除历史纠错外，不再作为迭代依赖。
 ---
 
 ## 1. 定位
@@ -74,5 +76,6 @@
 2. 风控规则变化
 3. 输出日志结构变化
 4. 回测对齐口径变化
+
 
 
