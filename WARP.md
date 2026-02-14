@@ -1,7 +1,7 @@
 # EmotionQuant 项目规则（Spiral 版）
 
-**版本**: v1.1.1
-**最后更新**: 2026-02-12
+**版本**: v1.1.2
+**最后更新**: 2026-02-14
 **状态**: 取代所有旧版个人 Rules，本文件为项目唯一 Warp 规则
 
 ---
@@ -130,8 +130,11 @@ CP 文档仅在契约变化时更新。
 - 内部股票代码：`stock_code`（6 位，如 `000001`）
 - 外部股票代码：`ts_code`（TuShare 格式，如 `000001.SZ`）
 - 统一使用 `risk_reward_ratio`（非 `rr_ratio`）
+- 跨模块契约版本字段：`contract_version`（当前 `nc-v1`）
 
 **权威命名规范**：`docs/naming-conventions.md`
+**机器可读契约源**：`docs/naming-contracts.schema.json`
+**术语/模板入口**：`docs/naming-contracts-glossary.md` / `Governance/steering/NAMING-CONTRACT-CHANGE-TEMPLATE.md`
 
 ---
 
@@ -210,6 +213,8 @@ cache_dir = "G:/EmotionQuant_data/"
 | 核心原则 | `Governance/steering/CORE-PRINCIPLES.md` |
 | 改进行动主计划 | `docs/design/enhancements/eq-improvement-plan-core-frozen.md` |
 | 命名规范 | `docs/naming-conventions.md` |
+| 命名契约 Schema | `docs/naming-contracts.schema.json` |
+| 命名契约术语/模板 | `docs/naming-contracts-glossary.md` / `Governance/steering/NAMING-CONTRACT-CHANGE-TEMPLATE.md` |
 | 系统总览 | `docs/system-overview.md` |
 | 模块索引 | `docs/module-index.md` |
 
@@ -227,6 +232,7 @@ cache_dir = "G:/EmotionQuant_data/"
 
 - 命令可运行、测试可复现、产物可检查
 - 硬编码检查、A 股规则检查、本地数据检查
+- 契约/治理一致性检查：`python -m scripts.quality.local_quality_check --contracts --governance`
 
 ### 9.2 合并前清理
 
@@ -281,6 +287,7 @@ cache_dir = "G:/EmotionQuant_data/"
 
 | 版本 | 日期 | 变更内容 |
 |------|------|----------|
+| v1.1.2 | 2026-02-14 | 同步命名契约入口（schema/glossary/template）与 `contract_version` 字段口径；质量门控补充本地一致性检查命令（`--contracts --governance`） |
 | v1.1.1 | 2026-02-12 | 路径口径整理：补全选型文档完整路径；`debts.md` 统一到 `Governance/record/debts.md`；历史归档路径改为当前有效入口 |
 | v1.1.0 | 2026-02-11 | 与 CLAUDE.md 对齐同步：补充文档定位节、修正 Gate 决策归属、补充回测技术栈口径、补充仓库远端 |
 | v1.0.0 | 2026-02-10 | 首版：与 Spiral 治理文件全面对齐，取代 4 条旧版个人 Rules |

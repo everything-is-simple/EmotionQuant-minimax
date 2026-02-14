@@ -77,6 +77,8 @@ secrets.json
 /data/
 !src/data/
 !src/data/**
+src/data/**/__pycache__/
+src/data/**/__pycache__/**
 !docs/reference/**/*.xlsx
 !docs/reference/**/*.xls
 

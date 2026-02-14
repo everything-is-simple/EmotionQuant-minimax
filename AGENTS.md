@@ -128,8 +128,11 @@ CP docs updated only on contract changes.
 - Internal stock code: `stock_code` (6-digit, e.g. `000001`)
 - External stock code: `ts_code` (TuShare format, e.g. `000001.SZ`)
 - Use `risk_reward_ratio` (not `rr_ratio`)
+- Cross-module contract version field: `contract_version` (current `nc-v1`)
 
 **Authoritative naming spec**: `docs/naming-conventions.md`
+**Machine-readable naming schema**: `docs/naming-contracts.schema.json`
+**Glossary / change template**: `docs/naming-contracts-glossary.md` / `Governance/steering/NAMING-CONTRACT-CHANGE-TEMPLATE.md`
 
 ---
 
@@ -208,6 +211,8 @@ cache_dir = "G:/EmotionQuant_data/"
 | Core principles | `Governance/steering/CORE-PRINCIPLES.md` |
 | Improvement action plan | `docs/design/enhancements/eq-improvement-plan-core-frozen.md` |
 | Naming conventions | `docs/naming-conventions.md` |
+| Naming contracts schema | `docs/naming-contracts.schema.json` |
+| Naming contracts glossary/template | `docs/naming-contracts-glossary.md` / `Governance/steering/NAMING-CONTRACT-CHANGE-TEMPLATE.md` |
 | System overview | `docs/system-overview.md` |
 | Module index | `docs/module-index.md` |
 
@@ -225,6 +230,7 @@ cache_dir = "G:/EmotionQuant_data/"
 
 - Command runnable, tests reproducible, artifacts inspectable
 - Hardcoded-path check, A-share rule check, local-data check
+- Contracts/governance consistency check: `python -m scripts.quality.local_quality_check --contracts --governance`
 
 ### 9.2 Pre-merge cleanup
 

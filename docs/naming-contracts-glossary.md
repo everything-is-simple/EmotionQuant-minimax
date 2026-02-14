@@ -23,5 +23,5 @@
 
 1. 先更新 `docs/naming-contracts.schema.json`。
 2. 再更新 `docs/naming-conventions.md` 与受影响模块文档。
-3. 执行 `python -m scripts.quality.local_quality_check --contracts`。
+3. 执行 `python -m scripts.quality.local_quality_check --contracts --governance`。
 4. 使用 `Governance/steering/NAMING-CONTRACT-CHANGE-TEMPLATE.md` 记录联动清单。

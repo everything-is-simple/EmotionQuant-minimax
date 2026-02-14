@@ -31,6 +31,9 @@ EmotionQuant 是面向中国 A 股的情绪驱动量化系统，执行模型为 
 
 - `docs/system-overview.md`
 - `docs/module-index.md`
+- `docs/naming-conventions.md`
+- `docs/naming-contracts.schema.json`
+- `docs/naming-contracts-glossary.md`
 - `docs/design/`（`docs/design/core-algorithms/` + `docs/design/core-infrastructure/` + `docs/design/enhancements/`）
 - `Governance/Capability/SPIRAL-CP-OVERVIEW.md`
 - `Governance/SpiralRoadmap/VORTEX-EVOLUTION-ROADMAP.md`（实现总路线） + `Governance/SpiralRoadmap/DEPENDENCY-MAP.md`（跨圈依赖与外挂排布）
@@ -74,6 +77,7 @@ pip install -e ".[visualization]"
 
 ```bash
 pytest -v
+python -m scripts.quality.local_quality_check --contracts --governance
 ```
 
 说明：当前仓库仍在实现早期，需按 S0-S6 逐圈收口。
@@ -92,8 +96,12 @@ pytest -v
 - `docs/system-overview.md`
 - `docs/module-index.md`
 - `docs/naming-conventions.md`
+- `docs/naming-contracts.schema.json`
+- `docs/naming-contracts-glossary.md`
 - `Governance/steering/系统铁律.md`
 - `Governance/steering/CORE-PRINCIPLES.md`
+- `Governance/steering/NAMING-CONTRACT-CHANGE-TEMPLATE.md`
+- `Governance/steering/CROSS-DOC-CHANGE-LINKAGE-TEMPLATE.md`
 
 ## 仓库地址
 

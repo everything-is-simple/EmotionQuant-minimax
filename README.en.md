@@ -32,6 +32,9 @@ Primary references:
 
 - `docs/system-overview.md`
 - `docs/module-index.md`
+- `docs/naming-conventions.md`
+- `docs/naming-contracts.schema.json`
+- `docs/naming-contracts-glossary.md`
 - `docs/design/` (`docs/design/core-algorithms/` + `docs/design/core-infrastructure/` + `docs/design/enhancements/`)
 - `Governance/Capability/SPIRAL-CP-OVERVIEW.md`
 - `Governance/SpiralRoadmap/VORTEX-EVOLUTION-ROADMAP.md` (implementation master roadmap) + `Governance/SpiralRoadmap/DEPENDENCY-MAP.md` (cross-spiral dependencies and ENH layout)
@@ -70,6 +73,7 @@ Basic check:
 
 ```bash
 pytest -v
+python -m scripts.quality.local_quality_check --contracts --governance
 ```
 
 ## Directory navigation
@@ -86,8 +90,12 @@ pytest -v
 - `docs/system-overview.md`
 - `docs/module-index.md`
 - `docs/naming-conventions.md`
+- `docs/naming-contracts.schema.json`
+- `docs/naming-contracts-glossary.md`
 - `Governance/steering/系统铁律.md`
 - `Governance/steering/CORE-PRINCIPLES.md`
+- `Governance/steering/NAMING-CONTRACT-CHANGE-TEMPLATE.md`
+- `Governance/steering/CROSS-DOC-CHANGE-LINKAGE-TEMPLATE.md`
 
 ## Repository
 

@@ -1,7 +1,7 @@
 # EmotionQuant 技术选型基线 (Technical Baseline)
 
-**版本**: v1.0.0
-**最后更新**: 2026-02-12
+**版本**: v1.1.0
+**最后更新**: 2026-02-14
 **定位**: 统一记录系统技术选型决策、备选方案与排除理由
 
 ---
@@ -59,6 +59,8 @@
 | 信号架构 | 三三制（MSS 市场 + IRS 行业 + PAS 个股） | 多层次情绪信号覆盖，同权协同 |
 | Validation | 独立模块，输出 Gate 决策（PASS/WARN/FAIL） | 门禁与算法解耦，Integration 消费 Gate 决策 |
 | Integration | 加权集成 MSS/IRS/PAS | 不偏废单算法，权重由 Validation 桥接 |
+| 命名契约源 | Schema-first（`docs/naming-contracts.schema.json`，`nc-v1`） | 阈值/枚举单源，降低跨文档漂移 |
+| 执行前契约校验 | Integration/Trading/Backtest 读取 `contract_version` 并前置校验 | 不兼容时阻断，避免静默错配 |
 | 情绪因子优先 | 铁律1 — 信号主逻辑以情绪因子为核心 | 系统定位决定 |
 | 技术指标边界 | 可对照/辅助特征，不得独立触发交易 | 铁律2 |
 | 权重初始化 | baseline 等权 `[1/3, 1/3, 1/3]` | Walk-Forward 在 S6 才做 |
@@ -102,7 +104,17 @@
 
 ---
 
-## 7. 交叉引用
+## 7. 质量门禁基线
+
+| 门禁层 | 基线命令/文件 | 作用 |
+|---|---|---|
+| 本地一致性检查 | `python -m scripts.quality.local_quality_check --contracts --governance` | 同步检查命名契约、行为边界与治理 SoT |
+| CI 阻断 | `.github/workflows/quality-gates.yml` | PR/主干变更自动阻断漂移 |
+| 命名契约行为回归 | `scripts/quality/contract_behavior_regression.py` | 固化 `unknown/sideways/RR=1.0/Gate WARN-FAIL/contract_version` 边界 |
+
+---
+
+## 8. 交叉引用
 
 | 主题 | 详细文档 |
 |---|---|
@@ -115,6 +127,10 @@
 | 改进主计划 | `docs/design/enhancements/eq-improvement-plan-core-frozen.md` |
 | 系统铁律 | `Governance/steering/系统铁律.md` |
 | 命名规范 | `docs/naming-conventions.md` |
+| 命名契约 Schema | `docs/naming-contracts.schema.json` |
+| 命名术语字典 | `docs/naming-contracts-glossary.md` |
+| 命名契约变更模板 | `Governance/steering/NAMING-CONTRACT-CHANGE-TEMPLATE.md` |
+| 跨文档联动模板 | `Governance/steering/CROSS-DOC-CHANGE-LINKAGE-TEMPLATE.md` |
 
 ---
 
@@ -122,4 +138,5 @@
 
 | 版本 | 日期 | 变更 |
 |---|---|---|
+| v1.1.0 | 2026-02-14 | 补充 Schema-first 命名契约与 `contract_version` 执行前校验基线；新增质量门禁基线（本地检查/CI/行为回归）与契约模板交叉引用 |
 | v1.0.0 | 2026-02-12 | 首版：汇聚散落的技术选型决策为统一基线文档 |

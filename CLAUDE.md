@@ -128,8 +128,11 @@ CP 文档仅在契约变化时更新。
 - 内部股票代码：`stock_code`（6 位，如 `000001`）
 - 外部股票代码：`ts_code`（TuShare 格式，如 `000001.SZ`）
 - 统一使用 `risk_reward_ratio`（非 `rr_ratio`）
+- 跨模块契约版本字段：`contract_version`（当前 `nc-v1`）
 
 **权威命名规范**：`docs/naming-conventions.md`
+**机器可读契约源**：`docs/naming-contracts.schema.json`
+**术语/模板入口**：`docs/naming-contracts-glossary.md` / `Governance/steering/NAMING-CONTRACT-CHANGE-TEMPLATE.md`
 
 ---
 
@@ -208,6 +211,8 @@ cache_dir = "G:/EmotionQuant_data/"
 | 核心原则 | `Governance/steering/CORE-PRINCIPLES.md` |
 | 改进行动主计划 | `docs/design/enhancements/eq-improvement-plan-core-frozen.md` |
 | 命名规范 | `docs/naming-conventions.md` |
+| 命名契约 Schema | `docs/naming-contracts.schema.json` |
+| 命名契约术语/模板 | `docs/naming-contracts-glossary.md` / `Governance/steering/NAMING-CONTRACT-CHANGE-TEMPLATE.md` |
 | 系统总览 | `docs/system-overview.md` |
 | 模块索引 | `docs/module-index.md` |
 
@@ -225,6 +230,7 @@ cache_dir = "G:/EmotionQuant_data/"
 
 - 命令可运行、测试可复现、产物可检查
 - 硬编码检查、A 股规则检查、本地数据检查
+- 契约/治理一致性检查：`python -m scripts.quality.local_quality_check --contracts --governance`
 
 ### 9.2 合并前清理
 
